@@ -2,6 +2,10 @@
 
 A TypeScript-based AI agent server featuring Retrieval-Augmented Generation (RAG), session memory, and a plugin system for weather and math operations.
 
+# Test it out here
+
+https://rag-pi-seven.vercel.app/
+
 ## 🚀 Features
 
 - **Conversational AI**: Google Gemini 1.5 Flash powered responses with context awareness
