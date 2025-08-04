@@ -6,6 +6,10 @@ A TypeScript-based AI agent server featuring Retrieval-Augmented Generation (RAG
 
 https://rag-pi-seven.vercel.app/
 
+# Backend Deployed 
+
+https://rag-1z0c.onrender.com
+
 ## 🚀 Features
 
 - **Conversational AI**: Google Gemini 1.5 Flash powered responses with context awareness
