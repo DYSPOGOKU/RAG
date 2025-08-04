@@ -12,4 +12,6 @@ services:
         value: 10000
       - key: GEMINI_API_KEY
         sync: false
+      - key: ALLOWED_ORIGINS
+        value: https://rag-pi-seven.vercel.app
     healthCheckPath: /health

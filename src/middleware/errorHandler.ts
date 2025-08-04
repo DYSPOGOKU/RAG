@@ -12,8 +12,8 @@ export const errorHandler = (
   let status = 500;
   let message = 'Internal Server Error';
 
-  // OpenAI API errors
-  if (error.message.includes('OpenAI')) {
+  // Gemini API errors
+  if (error.message.includes('Gemini') || error.message.includes('Google AI')) {
     status = 503;
     message = 'AI service temporarily unavailable';
   }

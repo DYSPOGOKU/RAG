@@ -1,5 +1,5 @@
 import express from 'express';
-import './loadenv'
+import './loadenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
@@ -8,10 +8,27 @@ import { errorHandler } from './middleware/errorHandler';
 import { VectorStore } from './services/vectorStore';
 import { DocumentLoader } from './services/documentLoader';
 
+// Load environment variables (redundant but ensures they're loaded)
 dotenv.config();
 
+// Debug environment variables
+console.log('Environment DEBUG:');
+console.log('- NODE_ENV:', process.env.NODE_ENV);
+console.log('- PORT:', process.env.PORT, '(type:', typeof process.env.PORT, ')');
+console.log('- GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? 'Set' : 'Not set');
+
 const app = express();
-const PORT = process.env.PORT || 3000;
+// Fix port parsing - convert string to number and validate
+const PORT = parseInt(process.env.PORT || '3000', 10);
+
+// Validate port number and use safe fallback
+const finalPort = (isNaN(PORT) || PORT < 0 || PORT > 65535) ? 3000 : PORT;
+
+if (finalPort !== PORT) {
+  console.error(`❌ Invalid port number: ${process.env.PORT}, using fallback: ${finalPort}`);
+}
+
+console.log(`🔧 Using port: ${finalPort}`);
 
 // Middleware
 app.use(helmet());
@@ -29,7 +46,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
-console.log(process.env.OPENAI_API_KEY); // should not be undefined
 
 // Routes
 app.use('/agent', agentRouter);
@@ -60,10 +76,10 @@ async function startServer() {
     
     console.log('🎯 Vector store initialized successfully');
     
-    app.listen(PORT, () => {
-      console.log(`🌟 AI Agent Server running on port ${PORT}`);
-      console.log(`🔗 Health check: http://localhost:${PORT}/health`);
-      console.log(`🤖 Agent endpoint: http://localhost:${PORT}/agent/message`);
+    app.listen(finalPort, () => {
+      console.log(`🌟 AI Agent Server running on port ${finalPort}`);
+      console.log(`🔗 Health check: http://localhost:${finalPort}/health`);
+      console.log(`🤖 Agent endpoint: http://localhost:${finalPort}/agent/message`);
     });
   } catch (error) {
     console.error('❌ Failed to start server:', error);
